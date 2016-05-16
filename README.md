@@ -42,7 +42,7 @@ $ ./idonethis.py
 
 ## Requirements:
 
-Python, Requests
+Python
 
 ## License
 

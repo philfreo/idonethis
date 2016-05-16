@@ -9,9 +9,9 @@ def request(endpoint, data = None):
     r = urllib2.Request(endpoint, data and urllib.urlencode(data), headers)
     return json.loads(urllib2.urlopen(r).read())
 
-try:
-    raw_text = sys.argv[1]
-except IndexError:
+if len(sys.argv) > 1:
+    raw_text = ' '.join(sys.argv[1:])
+else:
     raw_text = None
 
 endpoint = 'https://idonethis.com/api/v0.1/dones/'

@@ -1,26 +1,31 @@
 #!/usr/bin/env python
-import json, sys, os, requests
-try:
-    raw_text = sys.argv[1]
-except IndexError:
-    raw_text = None
+import json, sys, os, urllib, urllib2
 
 headers = {
     'authorization': 'Token %s' % os.getenv('IDONETHIS_TOKEN')
 }
 
+def request(endpoint, data = None):
+    r = urllib2.Request(endpoint, data and urllib.urlencode(data), headers)
+    return json.loads(urllib2.urlopen(r).read())
+
+if len(sys.argv) > 1:
+    raw_text = ' '.join(sys.argv[1:])
+else:
+    raw_text = None
+
 endpoint = 'https://idonethis.com/api/v0.1/dones/'
 
 if raw_text:
-    print requests.post(endpoint, headers=headers, data={
+    print request(endpoint, {
         'team': os.getenv('IDONETHIS_TEAM'),
         'raw_text': raw_text
     })
 
-dones = requests.get(endpoint, headers=headers, params={
+dones = request(endpoint + "?" + urllib.urlencode({
     'owner': os.getenv('IDONETHIS_USERNAME'),
     'done_date': 'today',
     'page_size': 100
-}).json()['results']
+}))['results']
 for done in dones:
     print '-'+done['raw_text']

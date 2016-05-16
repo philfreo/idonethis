@@ -37,12 +37,14 @@ $ ./idonethis.py
 ### Add a done:
 
 ```sh
-./idonethis.py "Added the coolest feature"
+./idonethis.py Added the coolest feature
 ```
+
+Beware of characters that can get interpreted by you shell and escape properly.
 
 ## Requirements:
 
-Python, Requests
+Python
 
 ## License
 
